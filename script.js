@@ -41,9 +41,9 @@ function showPopup(correctCount) {
     const totalQuestions = 3; // Number of questions in this chapter
     const resultMessage = `You answered ${correctCount} out of ${totalQuestions} questions correctly.`;
     document.getElementById("resultMessage").innerText = resultMessage;
-    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popup").style.display = "flex"; // Show the popup
 }
 
 function closePopup() {
-    document.getElementById("popup").style.display = "none";
+    document.getElementById("popup").style.display = "none"; // Close the popup
 }
