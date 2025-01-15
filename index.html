@@ -3,31 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NietEnglishStudy</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Niet English Study</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: column;
+            align-items: center;  /* Center content horizontally */
+            height: 100vh;
+            padding-top: 20px;
+        }
+        .header-container {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;  /* Center text inside container */
+            border-bottom: 2px solid #ccc;  /* Add a thin line under the title */
+            margin-bottom: 1.5rem;  /* Space between header and quiz */
+        }
+        .header {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .quiz-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+        .question {
+            margin-bottom: 1rem;
+        }
+        .question p {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .options {
+            margin-top: 0.5rem;
+        }
+        .options label {
+            display: block;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            text-align: left;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.25rem;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 400px;
+        }
+        .popup button {
+            background-color: #3e3b33;
+            border: none;
+            color: white;
+            padding: 0.75rem;
+            font-size: 1.25rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .popup button:hover {
+            background-color: #2d2921;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+
+        /* Media Query for Smaller Screens */
+        @media (max-width: 480px) {
+            .header {
+                font-size: 1.5rem;
+            }
+            .quiz-container {
+                padding: 1rem;
+            }
+            .question p {
+                font-size: 1rem;
+            }
+            .options label {
+                font-size: 0.9rem;
+            }
+            button {
+                font-size: 1rem;
+            }
+            .popup-content {
+                width: 90%;
+            }
+            .popup button {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="header">
-        <div class="overlay">
-            <div class="container">
-                <h1>NietEnglishStudy</h1>
-                <h2>Vistas English MCQs</h2>
-            </div>
-        </div>
-    </header>
 
-    <main class="main-content">
-        <div class="container">
-            <div class="chapters">
-                <button onclick="window.location.href='chapter1.html'">Chapter 1</button>
-                <button onclick="window.location.href='chapter2.html'">Chapter 2</button>
-                <button onclick="window.location.href='chapter3.html'">Chapter 3</button>
-                <button onclick="window.location.href='chapter4.html'">Chapter 4</button>
-                <button onclick="window.location.href='chapter5.html'">Chapter 5</button>
-                <button onclick="window.location.href='chapter6.html'">Chapter 6</button>
-            </div>
+<div class="header-container">
+    <div class="header">Niet English Study</div>
+</div>
+
+<div class="quiz-container">
+    <div class="question" id="q1">
+        <p><span class="question-number">1.</span> What is the capital of France?</p>
+        <div class="options">
+            <label><input type="radio" name="q1" value="A"> Paris</label>
+            <label><input type="radio" name="q1" value="B"> London</label>
+            <label><input type="radio" name="q1" value="C"> Berlin</label>
+            <label><input type="radio" name="q1" value="D"> Madrid</label>
         </div>
-    </main>
+    </div>
+
+    <div class="question" id="q2">
+        <p><span class="question-number">2.</span> What is 5 + 3?</p>
+        <div class="options">
+            <label><input type="radio" name="q2" value="A"> 6</label>
+            <label><input type="radio" name="q2" value="B"> 8</label>
+            <label><input type="radio" name="q2" value="C"> 10</label>
+            <label><input type="radio" name="q2" value="D"> 12</label>
+        </div>
+    </div>
+
+    <button id="checkBtn">Check Answers</button>
+</div>
+
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <h3>Your Results</h3>
+        <p id="result">You scored 0 out of 0</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<script>
+    const correctAnswers = {
+        q1: 'A',
+        q2: 'B'
+    };
+
+    document.getElementById('checkBtn').addEventListener('click', function() {
+        let score = 0;
+        let totalQuestions = Object.keys(correctAnswers).length;
+        let resultText = '';
+
+        // Reset question number color before checking
+        const questionNumbers = document.querySelectorAll('.question-number');
+        questionNumbers.forEach(number => {
+            number.classList.remove('correct', 'incorrect');
+        });
+
+        Object.keys(correctAnswers).forEach(q => {
+            const selectedOption = document.querySelector(`input[name="${q}"]:checked`);
+            const questionNumber = document.querySelector(`#${q} .question-number`);
+            const correctAnswer = correctAnswers[q];
+
+            if (selectedOption) {
+                // If the selected option is correct
+                if (selectedOption.value === correctAnswer) {
+                    score++;
+                    questionNumber.classList.add('correct');
+                } else {
+                    questionNumber.classList.add('incorrect');
+                }
+            } else {
+                // If no option is selected
+                questionNumber.classList.add('incorrect');
+            }
+        });
+
+        resultText = `You scored ${score} out of ${totalQuestions}`;
+        document.getElementById('result').innerHTML = resultText;
+
+        // Show popup
+        document.getElementById('popup').style.display = 'flex';
+    });
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
 
 </body>
-</html>
+    </html>
+    
