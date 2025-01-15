@@ -33,9 +33,19 @@
                 <label><input type="radio" name="q3" value="c"> Option C (Correct)</label><br>
                 <label><input type="radio" name="q3" value="d"> Option D</label>
             </div>
-            <button type="button" onclick="checkAnswers()">Check</button>
+            <button type="button" onclick="checkAnswers('chapter1')">Check</button>
         </form>
     </main>
+
+    <!-- Custom Popup -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Quiz Results</h2>
+            <p id="resultMessage"></p>
+            <button onclick="closePopup()">Okay</button>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
