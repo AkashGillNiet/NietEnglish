@@ -1,14 +1,21 @@
 function checkAnswers() {
     const answers = { q1: "a", q2: "b", q3: "c" }; // Correct answers
-    let score = 0;
-    let totalQuestions = Object.keys(answers).length;
 
     for (let key in answers) {
-        const userAnswer = document.querySelector(`input[name="${key}"]:checked`);
-        if (userAnswer && userAnswer.value === answers[key]) {
-            score++;
-        }
-    }
+        const options = document.querySelectorAll(`input[name="${key}"]`);
+        options.forEach((option) => {
+            const label = option.parentElement;
 
-    alert(`You got ${score} out of ${totalQuestions} correct.`);
+            // Reset previous styles
+            label.classList.remove("correct", "incorrect");
+
+            if (option.checked) {
+                if (option.value === answers[key]) {
+                    label.classList.add("correct"); // Add green border for correct
+                } else {
+                    label.classList.add("incorrect"); // Add red border for incorrect
+                }
+            }
+        });
+    }
 }
