@@ -38,28 +38,31 @@ main {
     border-radius: 8px;
 }
 
-.question p {
-    font-weight: bold;
-    color: #444;
-}
-
 label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
-    color: blue; /* Default color */
+    color: blue;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 15px;
+    transition: border-color 0.3s;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
 }
 
 label.correct {
-    color: green; /* Correct answer color */
+    border-color: green; /* Green border for correct answers */
 }
 
 label.incorrect {
-    color: red; /* Incorrect answer color */
+    border-color: red; /* Red border for incorrect answers */
 }
 
 button {
-    padding: 15px 20px;
+    padding: 10px 20px;
     font-size: 1rem;
     font-weight: bold;
     color: white;
