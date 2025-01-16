@@ -7,40 +7,34 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #1c1e26; /* Dark Navy Blue */
+            background-color: #1c1e26;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: flex-start;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            padding-top: 20px;
-            color: #f5f5f5; /* Off-white for text */
+            color: #f5f5f5;
         }
         .header-container {
-            background-color: #2d3142; /* Slightly lighter navy blue */
+            background-color: #2d3142;
             padding: 15px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 600px;
             text-align: center;
-            margin-bottom: 1.5rem;
-            color: #f5f5f5; /* Off-white text */
-            border: 1px solid #4caf50; /* Modern green border */
+            margin: 1.5rem auto;
         }
         .header {
             font-size: 2rem;
             font-weight: bold;
         }
         .quiz-container {
-            background: #2d3142; /* Slightly lighter navy blue */
+            display: none; /* Hidden by default until password is entered */
+            background-color: #2d3142;
             padding: 1.5rem;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 600px;
+            margin: 1.5rem auto;
         }
         .question {
             margin-bottom: 1.5rem;
@@ -48,19 +42,16 @@
         .question p {
             font-size: 1.25rem;
             font-weight: bold;
-        }
-        .options {
-            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         .options label {
             display: block;
             font-size: 1rem;
             margin: 0.5rem 0;
-            text-align: left;
-            color: #f5f5f5; /* Off-white text */
+            cursor: pointer;
         }
         button {
-            background-color: #4caf50; /* Modern Green */
+            background-color: #4caf50;
             color: white;
             padding: 0.75rem;
             border: none;
@@ -72,7 +63,7 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #45a049; /* Slightly darker green */
+            background-color: #45a049;
         }
         .popup {
             display: none;
@@ -84,59 +75,29 @@
             background-color: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
+            z-index: 9999;
         }
         .popup-content {
-            background-color: #f5f5f5; /* Off-white */
-            color: #1c1e26; /* Dark Navy Text */
+            background-color: #f5f5f5;
+            color: #1c1e26;
             padding: 1.5rem;
             border-radius: 10px;
-            max-width: 90%;
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
-        .popup button {
-            background-color: #4caf50;
-            border: none;
-            color: white;
-            padding: 0.75rem;
-            font-size: 1.25rem;
-            cursor: pointer;
+        .popup-content input {
+            width: 80%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            margin: 1rem 0;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            border: 1px solid #ccc;
         }
-        .popup button:hover {
-            background-color: #45a049;
-        }
-        .correct {
-            color: #4caf50; /* Modern green for correct answers */
-        }
-        .incorrect {
-            color: #ff4d4d; /* Bright red for incorrect answers */
-        }
-
-        /* Media Query for Smaller Screens */
-        @media (max-width: 480px) {
-            .header {
-                font-size: 1.5rem;
-            }
-            .quiz-container {
-                padding: 1rem;
-            }
-            .question p {
-                font-size: 1rem;
-            }
-            .options label {
-                font-size: 0.9rem;
-            }
-            button {
-                font-size: 1rem;
-            }
-            .popup-content {
-                width: 90%;
-            }
-            .popup button {
-                font-size: 1rem;
-            }
+        .popup-content .error {
+            color: red;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -146,9 +107,10 @@
     <div class="header">Niet English Study</div>
 </div>
 
+<!-- Quiz Container -->
 <div class="quiz-container">
     <div class="question" id="q1">
-        <p><span class="question-number">1.</span> What is the capital of France?</p>
+        <p>1. What is the capital of France?</p>
         <div class="options">
             <label><input type="radio" name="q1" value="A"> Paris</label>
             <label><input type="radio" name="q1" value="B"> London</label>
@@ -158,7 +120,7 @@
     </div>
 
     <div class="question" id="q2">
-        <p><span class="question-number">2.</span> What is 5 + 3?</p>
+        <p>2. What is 5 + 3?</p>
         <div class="options">
             <label><input type="radio" name="q2" value="A"> 6</label>
             <label><input type="radio" name="q2" value="B"> 8</label>
@@ -167,58 +129,76 @@
         </div>
     </div>
 
-    <button id="checkBtn">Check Answers</button>
+    <button onclick="checkAnswers()">Check Answers</button>
 </div>
 
-<div class="popup" id="popup">
+<!-- Password Lock Popup -->
+<div class="popup" id="lockPopup">
+    <div class="popup-content">
+        <h3>Enter Password to Unlock</h3>
+        <input type="password" id="password" placeholder="Enter Password">
+        <p class="error" id="errorMsg"></p>
+        <button onclick="unlockSite()">Submit</button>
+    </div>
+</div>
+
+<!-- Result Popup -->
+<div class="popup" id="resultPopup">
     <div class="popup-content">
         <h3>Your Results</h3>
-        <p id="result">You scored 0 out of 0</p>
-        <button onclick="closePopup()">Close</button>
+        <p id="resultText"></p>
+        <button onclick="closeResultPopup()">Close</button>
     </div>
 </div>
 
 <script>
+    // Correct Answers for Quiz
     const correctAnswers = {
         q1: 'A',
         q2: 'B'
     };
 
-    document.getElementById('checkBtn').addEventListener('click', function() {
+    // Lock Password
+    const correctPassword = "9008008";
+
+    // Show Lock Popup Initially
+    window.onload = function() {
+        document.getElementById('lockPopup').style.display = 'flex';
+    };
+
+    // Unlock the Site
+    function unlockSite() {
+        const enteredPassword = document.getElementById('password').value;
+        if (enteredPassword === correctPassword) {
+            document.getElementById('lockPopup').style.display = 'none';
+            document.querySelector('.quiz-container').style.display = 'block';
+        } else {
+            document.getElementById('errorMsg').textContent = "Invalid Password! Contact admin @lovelyakash41";
+        }
+    }
+
+    // Check Answers
+    function checkAnswers() {
         let score = 0;
         let totalQuestions = Object.keys(correctAnswers).length;
-        let resultText = '';
-
-        const questionNumbers = document.querySelectorAll('.question-number');
-        questionNumbers.forEach(number => {
-            number.classList.remove('correct', 'incorrect');
-        });
 
         Object.keys(correctAnswers).forEach(q => {
             const selectedOption = document.querySelector(`input[name="${q}"]:checked`);
-            const questionNumber = document.querySelector(`#${q} .question-number`);
-            const correctAnswer = correctAnswers[q];
-
-            if (selectedOption) {
-                if (selectedOption.value === correctAnswer) {
-                    score++;
-                    questionNumber.classList.add('correct');
-                } else {
-                    questionNumber.classList.add('incorrect');
-                }
-            } else {
-                questionNumber.classList.add('incorrect');
+            if (selectedOption && selectedOption.value === correctAnswers[q]) {
+                score++;
             }
         });
 
-        resultText = `You scored ${score} out of ${totalQuestions}`;
-        document.getElementById('result').innerHTML = resultText;
+        const resultText = `You scored ${score} out of ${totalQuestions}`;
+        document.getElementById('resultText').innerText = resultText;
 
-        document.getElementById('popup').style.display = 'flex';
-    });
+        // Show result popup
+        document.getElementById('resultPopup').style.display = 'flex';
+    }
 
-    function closePopup() {
-        document.getElementById('popup').style.display = 'none';
+    // Close Result Popup
+    function closeResultPopup() {
+        document.getElementById('resultPopup').style.display = 'none';
     }
 </script>
 
