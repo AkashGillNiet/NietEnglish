@@ -84,6 +84,13 @@
             width: 400px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+
+        .correct {
+            color: #4caf50; /* Green for correct answers */
+        }
+        .incorrect {
+            color: #ff4d4d; /* Red for incorrect answers */
+        }
     </style>
 </head>
 <body>
@@ -155,28 +162,32 @@
         let totalQuestions = Object.keys(correctAnswers).length;
         let resultText = '';
 
+        // Loop through all questions to check answers
         Object.keys(correctAnswers).forEach(q => {
             const selectedOption = document.querySelector(`input[name="${q}"]:checked`);
             const questionNumber = document.querySelector(`#${q} .question-number`);
             const correctAnswer = correctAnswers[q];
 
-            // Check for correct/incorrect answer
+            // Check if the answer is correct or incorrect
             if (selectedOption) {
                 if (selectedOption.value === correctAnswer) {
                     score++;
-                    questionNumber.classList.add('correct');
+                    questionNumber.classList.add('correct'); // Green for correct answers
+                    questionNumber.classList.remove('incorrect'); // Remove incorrect class
                 } else {
-                    questionNumber.classList.add('incorrect');
+                    questionNumber.classList.add('incorrect'); // Red for incorrect answers
+                    questionNumber.classList.remove('correct'); // Remove correct class
                 }
             } else {
-                questionNumber.classList.add('incorrect');
+                questionNumber.classList.add('incorrect'); // No answer selected, mark as incorrect
+                questionNumber.classList.remove('correct'); // Remove correct class
             }
         });
 
         resultText = `You scored ${score} out of ${totalQuestions}`;
         document.getElementById('resultText').innerHTML = resultText;
 
-        document.getElementById('resultPopup').style.display = 'flex';
+        document.getElementById('resultPopup').style.display = 'flex'; // Show result popup
     });
 
     // Close the result popup
