@@ -7,42 +7,43 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
+            background-color: #1c1e26; /* Dark Navy Blue */
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: flex-start;
             flex-direction: column;
-            align-items: center;  /* Center content horizontally */
+            align-items: center;
             height: 100vh;
             padding-top: 20px;
+            color: #f5f5f5; /* Off-white for text */
         }
         .header-container {
-            background-color: #fff;
+            background-color: #2d3142; /* Slightly lighter navy blue */
             padding: 15px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 600px;
-            text-align: center;  /* Center text inside container */
-            border-bottom: 2px solid #ccc;  /* Add a thin line under the title */
-            margin-bottom: 1.5rem;  /* Space between header and quiz */
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #f5f5f5; /* Off-white text */
+            border: 1px solid #4caf50; /* Modern green border */
         }
         .header {
             font-size: 2rem;
             font-weight: bold;
-            color: #333;
         }
         .quiz-container {
-            background: white;
+            background: #2d3142; /* Slightly lighter navy blue */
             padding: 1.5rem;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 600px;
         }
         .question {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         .question p {
             font-size: 1.25rem;
@@ -56,9 +57,10 @@
             font-size: 1rem;
             margin: 0.5rem 0;
             text-align: left;
+            color: #f5f5f5; /* Off-white text */
         }
         button {
-            background-color: #4CAF50;
+            background-color: #4caf50; /* Modern Green */
             color: white;
             padding: 0.75rem;
             border: none;
@@ -67,9 +69,10 @@
             font-size: 1.25rem;
             width: 100%;
             margin-top: 1rem;
+            transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #45a049; /* Slightly darker green */
         }
         .popup {
             display: none;
@@ -83,29 +86,32 @@
             align-items: center;
         }
         .popup-content {
-            background-color: white;
+            background-color: #f5f5f5; /* Off-white */
+            color: #1c1e26; /* Dark Navy Text */
             padding: 1.5rem;
             border-radius: 10px;
             max-width: 90%;
             width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         .popup button {
-            background-color: #3e3b33;
+            background-color: #4caf50;
             border: none;
             color: white;
             padding: 0.75rem;
             font-size: 1.25rem;
             cursor: pointer;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
         .popup button:hover {
-            background-color: #2d2921;
+            background-color: #45a049;
         }
         .correct {
-            color: green;
+            color: #4caf50; /* Modern green for correct answers */
         }
         .incorrect {
-            color: red;
+            color: #ff4d4d; /* Bright red for incorrect answers */
         }
 
         /* Media Query for Smaller Screens */
@@ -183,7 +189,6 @@
         let totalQuestions = Object.keys(correctAnswers).length;
         let resultText = '';
 
-        // Reset question number color before checking
         const questionNumbers = document.querySelectorAll('.question-number');
         questionNumbers.forEach(number => {
             number.classList.remove('correct', 'incorrect');
@@ -195,7 +200,6 @@
             const correctAnswer = correctAnswers[q];
 
             if (selectedOption) {
-                // If the selected option is correct
                 if (selectedOption.value === correctAnswer) {
                     score++;
                     questionNumber.classList.add('correct');
@@ -203,7 +207,6 @@
                     questionNumber.classList.add('incorrect');
                 }
             } else {
-                // If no option is selected
                 questionNumber.classList.add('incorrect');
             }
         });
@@ -211,7 +214,6 @@
         resultText = `You scored ${score} out of ${totalQuestions}`;
         document.getElementById('result').innerHTML = resultText;
 
-        // Show popup
         document.getElementById('popup').style.display = 'flex';
     });
 
@@ -221,5 +223,4 @@
 </script>
 
 </body>
-    </html>
-    
+</html>
