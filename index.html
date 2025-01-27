@@ -3,198 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Niet English Study</title>
+    <title>Niet - 12th English Study</title>
     <style>
-        /* Add all your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             background-color: #1c1e26;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: flex-start;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            height: 100vh;
-            padding-top: 20px;
+            flex-wrap: wrap;
+            min-height: 100vh;
             color: #f5f5f5;
+            flex-direction: column;
         }
         .header-container {
             background-color: #2d3142;
-            padding: 15px;
+            color: #f5f5f5;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 600px;
+            padding: 20px;
+            width: 80%;
             text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .quiz-container {
-            background: #2d3142;
-            padding: 1.5rem;
-            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            max-width: 600px;
+            margin-bottom: 20px;
         }
-        .question {
-            margin-bottom: 1.5rem;
+        .lesson-box {
+            background-color: #2d3142;
+            color: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .question p {
-            font-size: 1.25rem;
+        .lesson-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+        .lesson-box a {
+            text-decoration: none;
+            color: #f5f5f5;
+            font-size: 1.2rem;
             font-weight: bold;
         }
-        .options {
-            margin-top: 0.5rem;
-        }
-        .options label {
-            display: block;
-            font-size: 1rem;
-            margin: 0.5rem 0;
-            text-align: left;
-        }
-        button {
-            background-color: #4caf50;
-            color: white;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.25rem;
-            width: 100%;
-            margin-top: 1rem;
-        }
+
+        /* Popup styles */
         .popup {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
         .popup-content {
-            background-color: #f5f5f5;
-            color: #1c1e26;
-            padding: 1.5rem;
+            background-color: #2d3142;
+            color: #f5f5f5;
+            padding: 20px;
             border-radius: 10px;
-            max-width: 90%;
-            width: 400px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            text-align: center;
+        }
+        .popup input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .popup button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background-color: #45a049;
         }
 
-        .correct {
-            color: #4caf50; /* Green for correct answers */
-        }
-        .incorrect {
-            color: #ff4d4d; /* Red for incorrect answers */
+        /* Error message styling */
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<!-- Lock Popup for Password -->
-<div class="popup" id="lockPopup">
-    <div class="popup-content">
-        <h3>Enter Password</h3>
-        <input type="password" id="password" placeholder="Enter Password">
-        <p id="errorMsg" style="color: red;"></p>
-        <button onclick="unlockSite()">Unlock</button>
-    </div>
-</div>
-
-<!-- Quiz Container -->
+<!-- Header Box -->
 <div class="header-container">
     <div class="header">Niet English Study</div>
 </div>
 
-<div class="quiz-container" id="quizContainer">
-    <!-- Questions will be dynamically loaded here -->
-</div>
+<!-- Lesson Boxes -->
+<div class="lesson-box"><a href="lesson1.html">Lesson 1</a></div>
+<div class="lesson-box"><a href="lesson2.html">Lesson 2</a></div>
+<div class="lesson-box"><a href="lesson3.html">Lesson 3</a></div>
+<div class="lesson-box"><a href="lesson4.html">Lesson 4</a></div>
+<div class="lesson-box"><a href="lesson5.html">Lesson 5</a></div>
+<div class="lesson-box"><a href="lesson6.html">Lesson 6</a></div>
 
-<button id="checkBtn">Check Answers</button>
-
-<!-- Result Popup -->
-<div class="popup" id="resultPopup">
+<!-- Popup HTML -->
+<div class="popup" id="passwordPopup">
     <div class="popup-content">
-        <h3>Your Results</h3>
-        <p id="resultText"></p>
-        <button onclick="closePopup()">Close</button>
+        <h3>Please Enter Password</h3>
+        <input type="password" id="passwordInput" placeholder="Enter password">
+        <button onclick="checkPassword()">Confirm</button>
+        <div id="errorMessage" class="error-message">Incorrect password! Please try again.</div>
     </div>
 </div>
 
 <script>
-    // Correct Answers for Quiz
-    const correctAnswers = {
-        q1: 'A',
-        q2: 'B',
-        q3: 'C',
-        q4: 'A'
+    // Show the popup as soon as the page loads
+    window.onload = function() {
+        document.getElementById('passwordPopup').style.display = 'flex';
     };
 
-    const password = "9008008"; // Set your password here
-
-    window.onload = () => {
-        document.getElementById('lockPopup').style.display = 'flex';  // Display lock popup
-
-        // Load questions from external file
-        fetch('questions.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('quizContainer').innerHTML = data;
-            })
-            .catch(err => console.error('Error loading questions:', err));
-    };
-
-    // Unlock site after password validation
-    function unlockSite() {
-        const enteredPassword = document.getElementById('password').value;
-        if (enteredPassword === password) {
-            document.getElementById('lockPopup').style.display = 'none';
+    // Function to check the password and close the popup if correct
+    function checkPassword() {
+        var enteredPassword = document.getElementById('passwordInput').value;
+        var errorMessage = document.getElementById('errorMessage');
+        if (enteredPassword === '90096') {
+            document.getElementById('passwordPopup').style.display = 'none';
         } else {
-            document.getElementById('errorMsg').textContent = "Invalid Password! Contact admin @lovelyakash41";
+            errorMessage.style.display = 'block';  // Show the error message
         }
-    }
-
-    // Check answers and show result
-    document.getElementById('checkBtn').addEventListener('click', function() {
-        let score = 0;
-        let totalQuestions = Object.keys(correctAnswers).length;
-        let resultText = '';
-
-        // Loop through all questions to check answers
-        Object.keys(correctAnswers).forEach(q => {
-            const selectedOption = document.querySelector(`input[name="${q}"]:checked`);
-            const questionNumber = document.querySelector(`#${q} .question-number`);
-            const correctAnswer = correctAnswers[q];
-
-            // Check if the answer is correct or incorrect
-            if (selectedOption) {
-                if (selectedOption.value === correctAnswer) {
-                    score++;
-                    questionNumber.classList.add('correct'); // Green for correct answers
-                    questionNumber.classList.remove('incorrect'); // Remove incorrect class
-                } else {
-                    questionNumber.classList.add('incorrect'); // Red for incorrect answers
-                    questionNumber.classList.remove('correct'); // Remove correct class
-                }
-            } else {
-                questionNumber.classList.add('incorrect'); // No answer selected, mark as incorrect
-                questionNumber.classList.remove('correct'); // Remove correct class
-            }
-        });
-
-        resultText = `You scored ${score} out of ${totalQuestions}`;
-        document.getElementById('resultText').innerHTML = resultText;
-
-        document.getElementById('resultPopup').style.display = 'flex'; // Show result popup
-    });
-
-    // Close the result popup
-    function closePopup() {
-        document.getElementById('resultPopup').style.display = 'none';
     }
 </script>
 
